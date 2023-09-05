@@ -17,6 +17,29 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('/', [HomeController::class, 'index'])->name('home');
 
+// Dashboard
+Route::get('/dashboard/login', [AuthController::class, 'showLoginForm'])->name('dashboard.login.form');
+Route::post('/dashboard/login', [AuthController::class, 'login'])->name('dashboard.login');
+Route::get('/dashboard/logout', [AuthController::class, 'logout'])->name('dashboard.logout');
+
+Route::middleware(['checkDashboardAuth'])->group(function () {
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index'); 
+});
+
+// User routes
+Route::get('/user/register', [UserAuthController::class, 'showRegistrationForm'])->name('user.register.form');
+Route::post('/user/register', [UserAuthController::class, 'register'])->name('user.register');
+
+Route::get('/user/login', [UserAuthController::class, 'showLoginForm'])->name('user.login.form');
+Route::post('/user/login', [UserAuthController::class, 'login'])->name('user.login');
+
+Route::get('/user/reset', [UserAuthController::class, 'showResetForm'])->name('user.login.reset');
+// Route::post('/user/reset', [UserAuthController::class, 'resetPass'])->name('user.reset');
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/user/logout', [UserAuthController::class, 'logout'])->name('user.logout');
+});
 
 require __DIR__.'/auth.php';
