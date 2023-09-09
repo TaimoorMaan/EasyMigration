@@ -21,6 +21,20 @@ class AuthController extends Controller
         
     }
 
+    public function showResetForm()
+    {
+        if (!auth()->check()) {
+            return view('dashboard.reset'); 
+        }
+
+        if (Auth::user()->role === 'admin' || Auth::user()->role === 'staff') {
+            return redirect()->route('dashboard.index');
+        }
+        
+        return redirect()->route('home');
+        
+    }
+
     public function login(Request $request)
     {
         $credentials = $request->only('email', 'password');

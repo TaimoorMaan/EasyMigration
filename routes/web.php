@@ -23,6 +23,7 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/dashboard/login', [AuthController::class, 'showLoginForm'])->name('dashboard.login.form');
 Route::post('/dashboard/login', [AuthController::class, 'login'])->name('dashboard.login');
 Route::get('/dashboard/logout', [AuthController::class, 'logout'])->name('dashboard.logout');
+Route::get('/dashboard/reset', [AuthController::class, 'showResetForm'])->name('dashboard.login.reset');
 
 Route::middleware(['checkDashboardAuth'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index'); 
